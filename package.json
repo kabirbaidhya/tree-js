@@ -40,5 +40,10 @@
     "rimraf": "^2.5.4",
     "watchify": "^3.8.0",
     "webpack": "^1.14.0"
-  }
+  },
+  "files": [
+    "lib/",
+    "dist/",
+    "index.js"
+  ]
 }
