@@ -5,12 +5,24 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --fix ."
+    "lint": "eslint --fix .",
+    "transpile": "babel src -d lib",
+    "bundle:p": "NODE_ENV=production webpack -p",
+    "bundle:d": "webpack -d",
+    "clean": "rimraf lib/ dist/",
+    "bundle": "run-s bundle:*",
+    "build": "run-s lint clean transpile bundle"
   },
   "author": "Kabir Baidhya <kabirbaidhya@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.18.0",
     "babel-eslint": "^5.0.0",
-    "eslint": "2.2.0"
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "eslint": "2.2.0",
+    "npm-run-all": "^3.1.2",
+    "rimraf": "^2.5.4",
+    "webpack": "^1.14.0"
   }
 }
