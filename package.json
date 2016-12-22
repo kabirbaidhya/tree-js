@@ -16,6 +16,10 @@
   },
   "author": "Kabir Baidhya <kabirbaidhya@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kabirbaidhya/tree-manip.git"
+  },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-eslint": "^5.0.0",
