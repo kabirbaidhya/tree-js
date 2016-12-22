@@ -1,7 +1,7 @@
 {
   "name": "tree-manip",
   "version": "0.0.1",
-  "description": "A lightweight library for tree manipulation.",
+  "description": "A lightweight javascript library for tree manipulation.",
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run",
