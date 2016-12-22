@@ -1,0 +1,16 @@
+{
+  "name": "tree-manip",
+  "version": "0.0.1",
+  "description": "A lightweight library for tree manipulation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix ."
+  },
+  "author": "Kabir Baidhya <kabirbaidhya@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^5.0.0",
+    "eslint": "2.2.0"
+  }
+}
