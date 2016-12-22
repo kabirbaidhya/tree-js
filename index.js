@@ -1,1 +1,1 @@
-module.exports = require('./lib/Tree').default;
+module.exports = require('./lib/Tree');

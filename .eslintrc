@@ -11,6 +11,9 @@ parserOptions:
     modules: true
 
 extends: 'eslint:recommended'
+globals:
+  it: true
+  describe: true
 
 # http://eslint.org/docs/rules/
 rules:
