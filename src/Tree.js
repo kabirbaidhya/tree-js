@@ -1,3 +1,5 @@
+import {copyExcludingKeys} from './util';
+
 export function hasChildren(node) {
     return (Array.isArray(node.children) && node.children.length > 0);
 }
@@ -38,6 +40,28 @@ export function filter(tree, callback, includeChildren = false) {
     }
 
     return filterTree(tree, callback);
+}
+
+/**
+ * Flatten (linearize) the tree into a linear array of nodes.
+ *
+ * @param tree
+ * @returns {Array}
+ */
+export function flatten(tree) {
+    let list = [];
+    let nodes = Array.isArray(tree) ? tree : [tree];
+
+    nodes.forEach(node => {
+        let copyOfNode = copyExcludingKeys(node, ['children']);
+        list.push(copyOfNode);
+
+        if (hasChildren(node)) {
+            list = list.concat(flatten(node.children));
+        }
+    });
+
+    return list;
 }
 
 /**

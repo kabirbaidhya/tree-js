@@ -175,3 +175,46 @@ describe('Tree.map', () => {
         expect(mappedTree).to.deep.equal(result);
     });
 });
+
+describe('Tree.flatten', () => {
+    let flattened = Tree.flatten(tree1);
+    let result = [
+        {
+            id: 1,
+            name: 'Test Node 1'
+        },
+        {
+            id: 2,
+            name: 'Test Node 2'
+        },
+        {
+            id: 3,
+            name: 'Test Node 3',
+        },
+        {
+            id: 8,
+            name: 'Test Node 8'
+        },
+        {
+            id: 4,
+            name: 'Test Node 3',
+        },
+        {
+            id: 6,
+            name: 'Test Node 6'
+        },
+        {
+            id: 7,
+            name: 'Test Node 7'
+        },
+        {
+            id: 5,
+            name: 'Test Node 3'
+        }
+    ];
+
+    console.log('flattened = ', flattened);
+    console.log('result = ', result);
+
+    expect(flattened).to.deep.equal(result);
+});
