@@ -12,7 +12,8 @@
     "bundle:d": "webpack -d",
     "clean": "rimraf lib/ dist/",
     "bundle": "run-s bundle:*",
-    "build": "run-s lint clean transpile bundle"
+    "build": "run-s lint clean transpile bundle",
+    "prepublish": "npm run build"
   },
   "author": "Kabir Baidhya <kabirbaidhya@gmail.com>",
   "license": "MIT",

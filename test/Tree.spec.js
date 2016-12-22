@@ -66,6 +66,7 @@ describe('Tree.map', () => {
             elementId: node.id,
             title: node.name
         }));
+
         expect(mapped).to.deep.equal(result);
     });
 
