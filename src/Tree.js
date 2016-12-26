@@ -1,4 +1,4 @@
-import {copyExcludingKeys, isFunction} from './util';
+import * as util from './util';
 
 export function hasChildren(node) {
     return (Array.isArray(node.children) && node.children.length > 0);
@@ -53,7 +53,7 @@ export function flatten(tree) {
     let nodes = Array.isArray(tree) ? tree : [tree];
 
     nodes.forEach(node => {
-        let copyOfNode = copyExcludingKeys(node, ['children']);
+        let copyOfNode = util.copyExcludingKeys(node, ['children']);
 
         list.push(copyOfNode);
 
@@ -70,7 +70,7 @@ export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
         throw new TypeError(`Expected first argument to be an array. ${typeof filterCallback} given.`);
     }
 
-    if (!isFunction(filterCallback)) {
+    if (!util.isFunction(filterCallback)) {
         throw new TypeError(`Expected second argument to be a function. ${typeof filterCallback} given.`);
     }
 
@@ -86,7 +86,7 @@ export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
             continue;
         }
 
-        let mappedNode = isFunction(mapCallback) ? mapCallback(node, index) : node;
+        let mappedNode = util.isFunction(mapCallback) ? mapCallback(node, index) : node;
 
         // If the node has children then recursively apply the filter and map to them as well.
         if (hasChildren(node)) {
@@ -185,4 +185,25 @@ function mapTree(tree, callback) {
 
         return mappedNode;
     });
+}
+
+/**
+ * Counts the number of nodes a tree has.
+ *
+ * @param tree
+ * @returns {number}
+ */
+export function count(tree) {
+    // The tree should be an either array of nodes or an object representing a root node.
+    if (!Array.isArray(tree) && util.isObject(tree)) {
+        tree = [tree];
+    } else if (!Array.isArray(tree)) {
+        throw new TypeError(`Expected the first argument to be an array or an object. ${typeof tree} given.`);
+    }
+
+    return tree.reduce((acc, node) => {
+        let childTreeCount = hasChildren(node) ? count(node.children) : 0;
+
+        return acc + childTreeCount;
+    }, tree.length);
 }

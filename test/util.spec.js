@@ -46,4 +46,30 @@ describe('util.isFunction()', () => {
     it('should return false if the argument is not a function', () => {
         expect(util.isFunction('hello')).to.be.false;
     });
-})
+});
+
+describe('util.isObject()', () => {
+    it('should return true if the argument is a simple object literal', () => {
+        expect(util.isObject({foo: 'bar'})).to.be.true;
+    });
+
+    it('should return true for the Object constructor', () => {
+        expect(util.isObject(Object)).to.be.true;
+    });
+
+    it('should return true for any function as well', () => {
+        expect(util.isObject(() => 'test')).to.be.true;
+    });
+
+    it('should return false if the argument is null', () => {
+        expect(util.isObject(null)).to.be.false;
+    });
+
+    it('should return false if the argument is boolean', () => {
+        expect(util.isObject(true)).to.be.false;
+    });
+
+    it('should return false if the argument is undefined', () => {
+        expect(util.isObject()).to.be.false;
+    });
+});

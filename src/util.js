@@ -45,3 +45,13 @@ export function copyExcludingKeys(object, excludeKeys = []) {
 export function isFunction(param) {
     return (typeof param === 'function');
 }
+
+/**
+ * Checks if the parameter passed is an object.
+ *
+ * @param param
+ * @returns {boolean}
+ */
+export function isObject(param) {
+    return (param !== null) && (typeof param === 'function' || typeof param === 'object');
+}
