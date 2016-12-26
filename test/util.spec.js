@@ -1,15 +1,15 @@
 import chai from 'chai';
 import * as util from '../src/util';
 
-const {expect} = chai;
+const {assert, expect} = chai;
 
 describe('util.arrayIncludes()', () => {
     it('should return true if the array includes the value', () => {
-        expect(util.arrayIncludes(['Foo', 'Bar'], 'Foo')).to.be.true;
+        assert.isTrue(util.arrayIncludes(['Foo', 'Bar'], 'Foo'));
     });
 
     it('should return false if the array doesn\'t the value', () => {
-        expect(util.arrayIncludes(['Foo', 'Bar'], 'Test')).to.be.false;
+        assert.isFalse(util.arrayIncludes(['Foo', 'Bar'], 'Test'));
     });
 });
 
@@ -40,36 +40,36 @@ describe('util.copyExcludingKeys()', () => {
 
 describe('util.isFunction()', () => {
     it('should return true if the argument is a function', () => {
-        expect(util.isFunction(() => 'hello')).to.be.true;
+        assert.isTrue(util.isFunction(() => 'hello'));
     });
 
     it('should return false if the argument is not a function', () => {
-        expect(util.isFunction('hello')).to.be.false;
+        assert.isFalse(util.isFunction('hello'));
     });
 });
 
 describe('util.isObject()', () => {
     it('should return true if the argument is a simple object literal', () => {
-        expect(util.isObject({foo: 'bar'})).to.be.true;
+        assert.isTrue(util.isObject({foo: 'bar'}));
     });
 
     it('should return true for the Object constructor', () => {
-        expect(util.isObject(Object)).to.be.true;
+        assert.isTrue(util.isObject(Object));
     });
 
     it('should return true for any function as well', () => {
-        expect(util.isObject(() => 'test')).to.be.true;
+        assert.isTrue(util.isObject(() => 'test'));
     });
 
     it('should return false if the argument is null', () => {
-        expect(util.isObject(null)).to.be.false;
+        assert.isFalse(util.isObject(null));
     });
 
     it('should return false if the argument is boolean', () => {
-        expect(util.isObject(true)).to.be.false;
+        assert.isFalse(util.isObject(true));
     });
 
     it('should return false if the argument is undefined', () => {
-        expect(util.isObject()).to.be.false;
+        assert.isFalse(util.isObject());
     });
 });

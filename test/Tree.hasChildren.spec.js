@@ -1,7 +1,7 @@
 import chai from 'chai';
 import {hasChildren}from '../src/Tree';
 
-const {expect} = chai;
+const {assert} = chai;
 
 const tree1 = {
     id: 1,
@@ -16,10 +16,10 @@ const tree1 = {
 
 describe('Tree.hasChildren()', () => {
     it('should return true for a node that has children', () => {
-        expect(hasChildren(tree1)).to.be.true;
+        assert.isTrue(hasChildren(tree1));
     });
 
     it('should return false for a node that doesn\'t have children', () => {
-        expect(hasChildren(tree1.children[0])).to.be.false;
+        assert.isFalse(hasChildren(tree1.children[0]));
     });
 });

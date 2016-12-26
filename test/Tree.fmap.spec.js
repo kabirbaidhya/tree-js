@@ -47,6 +47,7 @@ describe('Tree.fmap()', () => {
                 ]
             }
         ];
+
         expect(expected).to.deep.equal(result);
     });
 });
