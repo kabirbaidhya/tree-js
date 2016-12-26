@@ -1,17 +1,19 @@
-import {assert, expect} from 'chai';
+import chai from 'chai';
 import * as util from '../src/util';
 
-describe('util.arrayIncludes', () => {
+const {expect} = chai;
+
+describe('util.arrayIncludes()', () => {
     it('should return true if the array includes the value', () => {
-        assert.isTrue(util.arrayIncludes(['Foo', 'Bar'], 'Foo'));
+        expect(util.arrayIncludes(['Foo', 'Bar'], 'Foo')).to.be.true;
     });
 
     it('should return false if the array doesn\'t the value', () => {
-        assert.isFalse(util.arrayIncludes(['Foo', 'Bar'], 'Test'));
+        expect(util.arrayIncludes(['Foo', 'Bar'], 'Test')).to.be.true;
     });
 });
 
-describe('util.copyExcludingKeys', () => {
+describe('util.copyExcludingKeys()', () => {
     it('should return all the keys expect the excluded ones', () => {
         let object = {
             id: 1,
