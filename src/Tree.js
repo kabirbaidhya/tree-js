@@ -205,6 +205,34 @@ export function count(tree) {
 }
 
 /**
+ * Finds (and returns) the first node for which the condition determined by the callback holds true.
+ * Returns undefined if not found.
+ *
+ * @param tree
+ * @param callback
+ * @returns {*}
+ */
+export function find(tree, callback) {
+    tree = ensure.arrayOfNodes(tree);
+
+    for (let index = 0; index < tree.length; index++) {
+        let node = tree[index];
+        let found = callback(node, index);
+
+        // Return the first node for which the callback returns true.
+        if (found === true) {
+            return node;
+        }
+
+        if (hasChildren(node) && (found = find(node.children, callback)) !== undefined) {
+            return found;
+        }
+    }
+
+    return undefined;
+}
+
+/**
  * Walks through each node of the tree and applies the callback to each node walked.
  *
  * @param tree
@@ -220,4 +248,4 @@ export function walk(tree, callback) {
             walk(node.children, callback);
         }
     });
-};
+}
