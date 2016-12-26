@@ -1,4 +1,5 @@
 import * as util from './util';
+import * as ensure from './ensure';
 
 export function hasChildren(node) {
     return (Array.isArray(node.children) && node.children.length > 0);
@@ -29,10 +30,7 @@ export function map(tree, callback) {
  * @param includeChildren
  */
 export function filter(tree, callback, includeChildren = false) {
-    // If the tree is not an array make it an array
-    if (!Array.isArray(tree)) {
-        return filter([tree], callback, includeChildren);
-    }
+    tree = ensure.arrayOfNodes(tree);
 
     // Whether or not to include the child nodes even if their parent nodes aren't included.
     if (includeChildren === true) {
@@ -66,14 +64,38 @@ export function flatten(tree) {
 }
 
 export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
-    if (!Array.isArray(tree)) {
-        throw new TypeError(`Expected first argument to be an array. ${typeof filterCallback} given.`);
-    }
+    tree = ensure.arrayOfNodes(tree);
 
     if (!util.isFunction(filterCallback)) {
         throw new TypeError(`Expected second argument to be a function. ${typeof filterCallback} given.`);
     }
 
+    if (inclusive === true) {
+        // TODO: Implement for inclusive
+        return [];
+    }
+
+    return fmapTree(tree, filterCallback, mapCallback);
+}
+
+function fmapTree(tree, filterCallback, mapCallback) {
+    if (!util.isFunction(mapCallback)) {
+        return filterTree(tree, filterCallback);
+    }
+
+    return filterAndMap(tree, filterCallback, (node, index) => {
+        let mappedNode = mapCallback(node, index);
+
+        // If the node has children then recursively apply the filter and map to them as well.
+        if (hasChildren(node)) {
+            mappedNode.children = filterAndMap(node.children, filterCallback, mapCallback);
+        }
+
+        return mappedNode;
+    });
+}
+
+function filterAndMap(tree, filterCallback, mapCallback) {
     let result = [];
 
     for (let index = 0; index < tree.length; index++) {
@@ -86,14 +108,7 @@ export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
             continue;
         }
 
-        let mappedNode = util.isFunction(mapCallback) ? mapCallback(node, index) : node;
-
-        // If the node has children then recursively apply the filter and map to them as well.
-        if (hasChildren(node)) {
-            mappedNode.children = fmap(node.children, filterCallback, mapCallback, inclusive);
-        }
-
-        result.push(mappedNode);
+        result.push(mapCallback(node, index));
     }
 
     return result;
@@ -108,27 +123,13 @@ export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
  * @returns {Array}
  */
 function filterTree(tree, callback) {
-    let result = [];
-
-    if (!Array.isArray(tree)) {
-        return [];
-    }
-
-    for (let index = 0; index < tree.length; index++) {
-        let node = tree[index];
-        let shouldIncludeIt = callback(node, index);
-
-        // If the condition holds false for a single node
-        // ignore the whole tree of that node (including all it's children).
-        if (!shouldIncludeIt) {
-            continue;
+    return filterAndMap(tree, callback, (node) => {
+        if (hasChildren(node)) {
+            node.children = filterTree(node.children, callback);
         }
 
-        node.children = filterTree(node.children, callback);
-        result.push(node);
-    }
-
-    return result;
+        return node;
+    });
 }
 
 /**
@@ -194,12 +195,7 @@ function mapTree(tree, callback) {
  * @returns {number}
  */
 export function count(tree) {
-    // The tree should be an either array of nodes or an object representing a root node.
-    if (!Array.isArray(tree) && util.isObject(tree)) {
-        tree = [tree];
-    } else if (!Array.isArray(tree)) {
-        throw new TypeError(`Expected the first argument to be an array or an object. ${typeof tree} given.`);
-    }
+    tree = ensure.arrayOfNodes(tree);
 
     return tree.reduce((acc, node) => {
         let childTreeCount = hasChildren(node) ? count(node.children) : 0;
@@ -207,3 +203,21 @@ export function count(tree) {
         return acc + childTreeCount;
     }, tree.length);
 }
+
+/**
+ * Walks through each node of the tree and applies the callback to each node walked.
+ *
+ * @param tree
+ * @param callback
+ */
+export function walk(tree, callback) {
+    tree = ensure.arrayOfNodes(tree);
+
+    tree.forEach((node, index) => {
+        callback(node, index);
+
+        if (hasChildren(node)) {
+            walk(node.children, callback);
+        }
+    });
+};
