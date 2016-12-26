@@ -4,8 +4,8 @@
   "description": "A lightweight javascript library for tree manipulation.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register --require babel-polyfill --recursive test/",
-    "watchtest": "mocha --compilers js:babel-register --require babel-polyfill --watch --recursive test/",
+    "test": "mocha",
+    "watchtest": "mocha --watch",
     "lint": "eslint --fix .",
     "transpile": "babel src -d lib",
     "bundle:p": "NODE_ENV=production webpack -p",

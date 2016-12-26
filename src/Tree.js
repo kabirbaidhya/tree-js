@@ -54,6 +54,7 @@ export function flatten(tree) {
 
     nodes.forEach(node => {
         let copyOfNode = copyExcludingKeys(node, ['children']);
+
         list.push(copyOfNode);
 
         if (hasChildren(node)) {
@@ -62,6 +63,10 @@ export function flatten(tree) {
     });
 
     return list;
+}
+
+export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
+    return [];
 }
 
 /**
