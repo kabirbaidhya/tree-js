@@ -20,7 +20,7 @@ export function arrayIncludes(array, item) {
 }
 /**
  * Returns a copy of object (shallow) excluding the keys provided.
- * 
+ *
  * @param object
  * @param excludeKeys
  * @returns {Object}
@@ -35,4 +35,13 @@ export function copyExcludingKeys(object, excludeKeys = []) {
     }
 
     return copy;
+}
+
+/**
+ * Checks if the parameter passed is a function.
+ *
+ * @param param
+ */
+export function isFunction(param) {
+    return (typeof param === 'function');
 }

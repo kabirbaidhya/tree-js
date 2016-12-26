@@ -1,4 +1,4 @@
-import {copyExcludingKeys} from './util';
+import {copyExcludingKeys, isFunction} from './util';
 
 export function hasChildren(node) {
     return (Array.isArray(node.children) && node.children.length > 0);
@@ -66,7 +66,37 @@ export function flatten(tree) {
 }
 
 export function fmap(tree, filterCallback, mapCallback, inclusive = false) {
-    return [];
+    if (!Array.isArray(tree)) {
+        throw new TypeError(`Expected first argument to be an array. ${typeof filterCallback} given.`);
+    }
+
+    if (!isFunction(filterCallback)) {
+        throw new TypeError(`Expected second argument to be a function. ${typeof filterCallback} given.`);
+    }
+
+    let result = [];
+
+    for (let index = 0; index < tree.length; index++) {
+        let node = tree[index];
+        let shouldIncludeIt = filterCallback(node, index);
+
+        // If the condition holds false for a single node
+        // ignore the whole tree of that node (including all it's children).
+        if (!shouldIncludeIt) {
+            continue;
+        }
+
+        let mappedNode = isFunction(mapCallback) ? mapCallback(node, index) : node;
+
+        // If the node has children then recursively apply the filter and map to them as well.
+        if (hasChildren(node)) {
+            mappedNode.children = fmap(node.children, filterCallback, mapCallback, inclusive);
+        }
+
+        result.push(mappedNode);
+    }
+
+    return result;
 }
 
 /**
@@ -149,7 +179,7 @@ function mapTree(tree, callback) {
         let mappedNode = callback(node, index);
 
         // If the node has children then map them as well.
-        if (Array.isArray(node.children)) {
+        if (hasChildren(node)) {
             mappedNode.children = mapTree(node.children, callback);
         }
 

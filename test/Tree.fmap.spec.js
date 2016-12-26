@@ -4,6 +4,14 @@ import {fmap} from '../src/Tree';
 const {expect} = chai;
 
 describe('Tree.fmap()', () => {
+    it('should throw TypeError if the first argument is not an array', () => {
+        expect(() => fmap(null)).to.throw(TypeError);
+    });
+
+    it('should throw TypeError if the filter callback is not provided as the second argument', () => {
+        expect(() => fmap([])).to.throw(TypeError);
+    });
+
     it('should return first filter the tree, map it and return the result tree', () => {
         const data = [
             {

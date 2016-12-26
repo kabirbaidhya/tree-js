@@ -9,7 +9,7 @@ describe('util.arrayIncludes()', () => {
     });
 
     it('should return false if the array doesn\'t the value', () => {
-        expect(util.arrayIncludes(['Foo', 'Bar'], 'Test')).to.be.true;
+        expect(util.arrayIncludes(['Foo', 'Bar'], 'Test')).to.be.false;
     });
 });
 
@@ -37,3 +37,13 @@ describe('util.copyExcludingKeys()', () => {
         expect(result).to.deep.equal(expected);
     });
 });
+
+describe('util.isFunction()', () => {
+    it('should return true if the argument is a function', () => {
+        expect(util.isFunction(() => 'hello')).to.be.true;
+    });
+
+    it('should return false if the argument is not a function', () => {
+        expect(util.isFunction('hello')).to.be.false;
+    });
+})
